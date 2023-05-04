@@ -76,9 +76,6 @@ namespace lexer
         }
         processBadToken();
     }
-    In this version, we again use lambda functions to capture the relevant state of the lexerand eliminate the use of mutable variables.We also use const variables to avoid repeating the same expression multiple times.
-
-        Note that the structure of the code
 
 
 
