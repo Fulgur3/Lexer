@@ -151,16 +151,18 @@ namespace lexer
 
     void Lexer::processBadToken(size_t forward) {
         currentState = Error;
-        char currentSymbol = currentLine.getNextSymbol(forward);
-        while (!currentLine.ended(forward + 1) || isEndOfToken(currentSymbol)) {
-            forward++;
-            currentSymbol = currentLine.getNextSymbol(forward);
+        size_t endOfToken = forward;
+        while (!currentLine.ended(endOfToken + 1)) {
+            char currentSymbol = currentLine.getNextSymbol(endOfToken);
+            if (isEndOfToken(currentSymbol)) {
+                break;
+            }
+            endOfToken++;
         }
         registerError("Invalid token ",
-            currentLine.line.substr(currentLine.column, forward),
+            currentLine.line.substr(currentLine.column, endOfToken - currentLine.column),
             currentLine.row,
             currentLine.column);
-
     }
 
     void Lexer::processComment() {
